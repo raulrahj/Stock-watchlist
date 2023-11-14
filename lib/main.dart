@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:stock_watchlist/controller/base_controller.dart';
 import 'package:stock_watchlist/view/navbar/botton_nav.dart';
 
 void main() {
@@ -10,13 +12,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Stock Watchlist',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => BaseController(),
+        )
+      ],
+      child: MaterialApp(
+        title: 'Stock Watchlist',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        debugShowCheckedModeBanner: false,
+        home: BottomNavBar(),
       ),
-      debugShowCheckedModeBanner: false,
-      home: BottomNavBar(),
     );
   }
 }

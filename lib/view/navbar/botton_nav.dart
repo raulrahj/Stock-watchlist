@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:stock_watchlist/controller/base_controller.dart';
 import 'package:stock_watchlist/view/home/home_screen.dart';
 import 'package:stock_watchlist/view/watch_list/watch_list_screen.dart';
 
@@ -11,8 +13,9 @@ class BottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int currentIndex = Provider.of<BaseController>(context).selectedIndex;
     return Scaffold(
-      body: _mainScreens[0],
+      body: _mainScreens[currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(
@@ -20,9 +23,10 @@ class BottomNavBar extends StatelessWidget {
           BottomNavigationBarItem(
               icon: Icon(Icons.view_list_outlined), label: "Watchlist")
         ],
-        currentIndex: 0,
+        currentIndex: currentIndex,
         selectedItemColor: Colors.black,
-        onTap: (value) {},
+        onTap: (value) =>
+            Provider.of<BaseController>(context, listen: false).onTap(value),
       ),
     );
   }
