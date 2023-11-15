@@ -1,6 +1,6 @@
 import 'package:hive_flutter/hive_flutter.dart';
-
-@HiveType(typeId: 1)
+part 'stock_model.g.dart';
+@HiveType(typeId: 0)
 class StockModel {
   @HiveField(0)
   int? id;
