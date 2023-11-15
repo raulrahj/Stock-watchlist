@@ -1,6 +1,7 @@
-
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:stock_watchlist/controller/services/base.dart';
+import 'package:stock_watchlist/controller/watchlist_controller.dart';
 
 class SearchResult extends StatelessWidget {
   const SearchResult({
@@ -23,7 +24,12 @@ class SearchResult extends StatelessWidget {
               "Price",
               style: TextStyle(color: Colors.green, fontSize: 15),
             ),
-            trailing: IconButton(onPressed: () {}, icon: const Icon(Icons.add)),
+            trailing: IconButton(
+                onPressed: () async {
+                  await Provider.of<WatchListController>(context, listen: false)
+                      .addStocks(searchResult[index], context);
+                },
+                icon: const Icon(Icons.add)),
             title: Text(searchResult[index].company));
       },
       separatorBuilder: (context, index) => const SizedBox(
