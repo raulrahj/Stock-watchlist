@@ -15,7 +15,7 @@ class WatchListScreen extends StatelessWidget {
         child: Consumer<WatchListController>(builder: (context, state, _) {
           if (state.stockList.isNotEmpty) {
             return ListView.separated(
-              itemCount: 5,
+              itemCount: state.stockList.length,
               itemBuilder: (BuildContext context, int index) {
                 return ListTile(
                     tileColor: Colors.grey[300],
@@ -25,7 +25,7 @@ class WatchListScreen extends StatelessWidget {
                       style: TextStyle(color: Colors.green, fontSize: 15),
                     ),
                     trailing: IconButton(
-                        onPressed: () => onDelete,
+                        onPressed: () async => await onDelete(context, index),
                         icon: const Icon(Icons.close)),
                     title: Text(state.stockList[index].company));
               },
@@ -44,7 +44,7 @@ class WatchListScreen extends StatelessWidget {
     );
   }
 
-  void onDelete(BuildContext context, int index) {
+  Future<void> onDelete(BuildContext context, int index) async {
     showDialog(
       context: context,
       builder: (context) {
@@ -68,8 +68,9 @@ class WatchListScreen extends StatelessWidget {
                 child: const Text('No'),
               ),
               TextButton(
-                onPressed: () {
-                  Provider.of<WatchListController>(context).deleteStock(index);
+                onPressed: () async {
+                  Provider.of<WatchListController>(context, listen: false)
+                      .deleteStock(index);
                   Navigator.of(context).pop();
                 },
                 child: const Text('Yes'),

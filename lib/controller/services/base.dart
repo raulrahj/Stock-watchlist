@@ -10,15 +10,16 @@ typedef STOCKLIST = List<StockModel>;
 class Services {
   Future<List<StockModel>> searchStock(String keyword) async {
     List<StockModel> stockList = [];
+    // var uri = Uri.parse(
+    //     "${baseApi}query?function=SYMBOL_SEARCH&keywords=T$keyword&apikey=$apiKey");
     var uri = Uri.parse(
-        "${baseApi}query?function=SYMBOL_SEARCH&keywords=T$keyword&apikey=$apiKey");
+        "https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=tesco&apikey=demo");
     try {
       http.Response response = await http.get(uri);
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
-        print('error $data');
         if (data != null) {
-          final stocks = List<Map<String, dynamic>>.from(data);
+          final stocks = List<Map<String, dynamic>>.from(data['bestMatches']);
           stockList = stocks.map((e) => StockModel.fromJson(e)).toList();
         }
       } else {

@@ -30,7 +30,10 @@ class SearchResult extends StatelessWidget {
                       .addStocks(searchResult[index], context);
                 },
                 icon: const Icon(Icons.add)),
-            title: Text(searchResult[index].company));
+            title: Text(
+              searchResult[index].company,
+              style: const TextStyle(color: Colors.black),
+            ));
       },
       separatorBuilder: (context, index) => const SizedBox(
         height: 5,
@@ -64,7 +67,12 @@ class SearchSuggestion extends StatelessWidget {
                       style: TextStyle(color: Colors.green, fontSize: 15),
                     ),
                     trailing: IconButton(
-                        onPressed: () {}, icon: const Icon(Icons.add)),
+                        onPressed: () async {
+                          await Provider.of<WatchListController>(context,
+                                  listen: false)
+                              .addStocks(searchSuggestions[index], context);
+                        },
+                        icon: const Icon(Icons.add)),
                     title: Text(searchSuggestions[index].company));
               }),
         ));

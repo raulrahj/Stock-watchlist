@@ -13,8 +13,8 @@ class StockModel {
   
   factory StockModel.fromJson(Map<String, dynamic> json) {
     return StockModel(
-      company: json['company'] ?? "",
-      symbol: json['symbol'] ?? "",
+      company: json['2. name'] ?? "",
+      symbol: json['1. symbol'] ?? "",
     );
   }
 }

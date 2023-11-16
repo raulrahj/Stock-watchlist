@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stock_watchlist/controller/services/base.dart';
 import 'package:stock_watchlist/model/stock_model.dart';
+import 'package:stock_watchlist/view/home/widgets.dart';
 
 class SearchController extends ChangeNotifier {
   final _service = Services();
@@ -16,9 +17,16 @@ class SearchController extends ChangeNotifier {
     if (isSearching) {
       isSearch = true;
       searchResult = data;
+    } else {
+      searchSuggestions = data;
     }
-    searchSuggestions = data;
     isLoading = false;
+    notifyListeners();
+  }
+
+  void clearSearch() {
+    searchResult.clear();
+    searchSuggestions.clear();
     notifyListeners();
   }
 }

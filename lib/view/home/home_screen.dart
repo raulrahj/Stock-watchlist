@@ -58,9 +58,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     _debounce = Timer(
                       const Duration(milliseconds: 900),
                       () async {
-                        await Provider.of<SearchController>(context,
-                                listen: false)
-                            .fetchData(value);
+                        if (textController.text.isNotEmpty) {
+                          await Provider.of<SearchController>(context,
+                                  listen: false)
+                              .fetchData(value);
+                        } else {
+                          Provider.of<SearchController>(context, listen: false)
+                              .clearSearch();
+                        }
                       },
                     );
                   },
@@ -75,7 +80,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 )
               else
                 Column(children: [
-                  SearchSuggestion(searchSuggestions: state.searchSuggestions),
+                  if (state.searchResult.isEmpty)
+                    SearchSuggestion(searchSuggestions: state.searchSuggestions)
+                  else
+                    const SizedBox(),
                   if (state.searchResult.isNotEmpty)
                     SearchResult(
                       searchResult: state.searchResult,
