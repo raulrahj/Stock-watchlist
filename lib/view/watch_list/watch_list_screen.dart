@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:stock_watchlist/controller/services/base.dart';
 import 'package:stock_watchlist/controller/watchlist_controller.dart';
 
 class WatchListScreen extends StatelessWidget {
@@ -7,6 +8,7 @@ class WatchListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<WatchListController>(context, listen: false).getAllStocks();
     return Scaffold(
       appBar: AppBar(
         title: const Text("Watch List"),
@@ -20,10 +22,24 @@ class WatchListScreen extends StatelessWidget {
                 return ListTile(
                     tileColor: Colors.grey[300],
                     leading: const Icon(Icons.list),
-                    subtitle: const Text(
-                      "Price",
-                      style: TextStyle(color: Colors.green, fontSize: 15),
-                    ),
+                    subtitle: FutureBuilder<String>(
+                        future:
+                            Services().getPrice(state.stockList[index].company),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return Text(
+                              "₹ ${snapshot.data.toString()}",
+                              style: const TextStyle(
+                                  color: Colors.green, fontSize: 15),
+                            );
+                          } else {
+                            return const Text(
+                              "...",
+                              style:
+                                  TextStyle(color: Colors.green, fontSize: 15),
+                            );
+                          }
+                        }),
                     trailing: IconButton(
                         onPressed: () async => await onDelete(context, index),
                         icon: const Icon(Icons.close)),

@@ -20,9 +20,29 @@ class SearchResult extends StatelessWidget {
         return ListTile(
             tileColor: Colors.grey[300],
             leading: const Icon(Icons.list),
-            subtitle: const Text(
-              "Price",
-              style: TextStyle(color: Colors.green, fontSize: 15),
+            subtitle: Row(
+              children: [
+                Text(searchResult[index].symbol),
+                const SizedBox(
+                  width: 8,
+                ),
+                FutureBuilder<String>(
+                    future: Services().getPrice(searchResult[index].company),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Text(
+                          "₹ ${snapshot.data.toString()}",
+                          style: const TextStyle(
+                              color: Colors.green, fontSize: 15),
+                        );
+                      } else {
+                        return const Text(
+                          "...",
+                          style: TextStyle(color: Colors.green, fontSize: 15),
+                        );
+                      }
+                    }),
+              ],
             ),
             trailing: IconButton(
                 onPressed: () async {
@@ -61,10 +81,31 @@ class SearchSuggestion extends StatelessWidget {
               itemCount: searchSuggestions.length,
               itemBuilder: (BuildContext context, int index) {
                 return ListTile(
-                    leading: const Icon(Icons.list),
-                    subtitle: const Text(
-                      "Price",
-                      style: TextStyle(color: Colors.green, fontSize: 15),
+                    subtitle: Row(
+                      children: [
+                        Text(searchSuggestions[index].symbol),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        FutureBuilder<String>(
+                            future: Services()
+                                .getPrice(searchSuggestions[index].company),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return Text(
+                                  "₹ ${snapshot.data.toString()}",
+                                  style: const TextStyle(
+                                      color: Colors.green, fontSize: 15),
+                                );
+                              } else {
+                                return const Text(
+                                  "...",
+                                  style: TextStyle(
+                                      color: Colors.green, fontSize: 15),
+                                );
+                              }
+                            }),
+                      ],
                     ),
                     trailing: IconButton(
                         onPressed: () async {

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stock_watchlist/controller/services/base.dart';
 import 'package:stock_watchlist/model/stock_model.dart';
-import 'package:stock_watchlist/view/home/widgets.dart';
 
 class SearchController extends ChangeNotifier {
   final _service = Services();
@@ -12,6 +11,8 @@ class SearchController extends ChangeNotifier {
   Future<void> fetchData(String keyword, [bool isSearching = false]) async {
     isLoading = true;
     isSearch = false;
+    searchResult.clear();
+    searchSuggestions.clear();
     notifyListeners();
     final data = await _service.searchStock(keyword);
     if (isSearching) {
